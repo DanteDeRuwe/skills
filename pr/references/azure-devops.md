@@ -30,7 +30,7 @@ test -s "$DESC_FILE" && \
   --work-items <id> [<id> ...] --query "{id:pullRequestId,url:repository.webUrl}" -o tsv
 ```
 
-- `@<path>` makes `az` read the value from the file. This avoids shell quoting, newline and command-length problems (`az.cmd` from PowerShell cuts a multi-line argument). `az` runs on Python, so on Windows use a Windows or relative path, not Git Bash's `/tmp`.
+- `@<path>` makes `az` read the value from the file. This avoids shell quoting, newline and command-length problems (`az.cmd` from PowerShell cuts a multi-line argument).
 - Draft, only when asked: add `--draft true`.
 
 ## Change an existing PR
