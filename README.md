@@ -1,13 +1,9 @@
 <div align="center">
 
-# 🧰 skills
+# 🧰 DanteDeRuwe/skills
 
-**Agent skills for everyday dev workflows: pull requests, decision records, and clean session hand-offs.**
-
-[![skills.sh](https://skills.sh/b/dantederuwe/skills)](https://skills.sh/dantederuwe/skills)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-![Skills](https://img.shields.io/badge/skills-3-orange)
-![Claude Code](https://img.shields.io/badge/built%20for-Claude%20Code-d97757)
+**Agent skills for agentic engineers**
+[dantederuwe.com](https://dantederuwe.com)
 
 </div>
 
