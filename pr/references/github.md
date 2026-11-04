@@ -6,7 +6,7 @@ Commands and quirks for GitHub. The process lives in `SKILL.md`; this file only 
 
 - Login check: `gh auth status`. If not logged in, tell the user to run `gh auth login`.
 - `gh` reads the owner and repo from the remote. GitHub Enterprise hosts work when `gh auth status` lists them.
-- **Forks**: `gh repo view --json isFork,parent`. If it is a fork, PRs go to the upstream repo by default. Confirm the target repo with the user; pass `--repo <owner>/<repo>` to choose it.
+- **Forks**: `gh repo view --json isFork,parent`. If it is a fork, PRs go to the upstream repo by default. Confirm the target repo with the user; pass `--repo <owner>/<repo>` to choose it. When the PR targets the upstream, pass `--head <fork-owner>:<branch>` (a bare `<branch>` is looked up in the upstream and not found), and branch from the upstream's default branch, not the fork's, which may be behind.
 - Default branch: `gh repo view --json defaultBranchRef -q .defaultBranchRef.name` (or the `git symbolic-ref` command in `SKILL.md`).
 
 ## Linking issues
@@ -17,13 +17,13 @@ Commands and quirks for GitHub. The process lives in `SKILL.md`; this file only 
 
 ## PR template
 
-If the repo has `.github/pull_request_template.md` or a `.github/PULL_REQUEST_TEMPLATE/` folder, fill in its sections instead of the headings in `SKILL.md`. The style rules in `SKILL.md` still apply.
+If the repo has a `pull_request_template.md` (any case) in `.github/`, `docs/` or the root, or a `PULL_REQUEST_TEMPLATE/` folder, fill in its sections instead of the headings in `SKILL.md`. The style rules in `SKILL.md` still apply.
 
 ## Create
 
 ```bash
-wc -c "$DESC_FILE"
-gh pr create --base <default> --head <branch> --title "<title>" --body-file "$DESC_FILE"
+test -s "$DESC_FILE" && \
+  gh pr create --base <default> --head <branch> --title "<title>" --body-file "$DESC_FILE"
 ```
 
 - Draft, only when asked: add `--draft`.

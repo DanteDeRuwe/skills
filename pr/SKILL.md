@@ -21,7 +21,7 @@ Read `git remote get-url origin` (or the remote the branch tracks) and pick the 
 | Remote host | Platform | Read now |
 |---|---|---|
 | `github.com`, or a GitHub Enterprise host that `gh auth status` knows | GitHub | `references/github.md` |
-| `dev.azure.com`, `*.visualstudio.com`, `ssh.dev.azure.com` | Azure DevOps | `references/azure-devops.md` |
+| `dev.azure.com`, `*.visualstudio.com`, `ssh.dev.azure.com`, `vs-ssh.visualstudio.com` | Azure DevOps | `references/azure-devops.md` |
 
 **Read the matching reference file now, before step 1.** It has the login check, how to link issues or work items, and the commands for steps 4, 5 and 7. Do not read the other one.
 
@@ -34,15 +34,15 @@ If the host matches neither, or the repo has remotes on different platforms, ask
 
 ## 2. Pick the base and the branch
 
-- Target the repo's default branch. Find it with `git symbolic-ref --short refs/remotes/origin/HEAD` after `git fetch origin`. It differs per repo (`master` or `main`), so never assume.
+- Target the repo's default branch. Run `git fetch origin`, then `git remote set-head origin --auto` (`origin/HEAD` is only set on clone and `git fetch` never updates it), then `git rev-parse --abbrev-ref origin/HEAD`. That prints `origin/<default>`; the branch name is the part after `origin/`. It differs per repo (`master` or `main`), so never assume.
 - Branch from the **latest** `origin/<default>`, not from whatever the checkout is on. A stale local branch drags old commits into the PR.
 - If the checkout is dirty or on someone's feature branch, do not stash or switch it. Make a sibling worktree and work there:
 
   ```bash
-  git worktree add -b <branch> ../<repo>_wt origin/<default>
+  git worktree add -b <branch> ../<repo>_wt_<short-name> origin/<default>
   ```
 
-  When done, remove it from a directory outside it: `git worktree remove --force ../<repo>_wt`. Windows refuses while the shell is inside it, so `cd` out first and delete the folder if git leaves it behind.
+  Pick a `<short-name>` whose folder does not exist yet, so a second PR in the same session does not collide with the first. When done, remove it from a directory outside it: `git worktree remove --force ../<repo>_wt_<short-name>`. Windows refuses while the shell is inside it, so `cd` out first; if git leaves the folder behind, delete it and run `git worktree prune`.
 - Branch names: follow the repo's convention if it has one (check recent branches or the contributing guide). Otherwise use `chore/...`, `fix/<id>-...` or `feature/...`, short and descriptive.
 
 ## 3. Commit only what belongs
@@ -54,7 +54,7 @@ If the host matches neither, or the repo has remotes on different platforms, ask
 
 ## 4. Open the PR
 
-Write the description to a file first, check it is not empty (`wc -c "$DESC_FILE"`), then create the PR with the command from the platform reference. An empty file or a path the shell cannot read turns into an empty description with no error. Keep temp files in a location the same program that writes them also reads (Python on Windows does not see Git Bash's `/tmp`).
+Write the description to a file first, then create the PR with the command from the platform reference, gated on `test -s "$DESC_FILE" &&` so it does not run when the file is empty or missing. An empty file or a path the shell cannot read turns into an empty description with no error. Keep temp files in a location the same program that writes them also reads (Python on Windows does not see Git Bash's `/tmp`).
 
 Link the confirmed issues or work items the way the platform reference says. If it names a PR template in the repo, fill in its sections instead of the headings below.
 

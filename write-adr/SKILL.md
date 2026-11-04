@@ -33,8 +33,8 @@ The first ADR is `0001`. Derive the kebab-case part from the decision, e.g.
 
 ## Author
 
-Record who made the decision as `Author: Name`. You already know the current user from your
-session context, so just use their name. Don't include an email address.
+Record who made the decision as `Author: Name`. Use the current user's name from your session
+context; if it isn't there, use `git config user.name`. Don't include an email address.
 
 ## Template
 
