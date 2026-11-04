@@ -83,9 +83,16 @@ Azure DevOps links work items through `--work-items`, not through the descriptio
 
 **The description**
 
-A good description is short and factual. Skip preambles and keep the prose brief. Where it fits, write in the spirit of ASD-STE100 (Simplified Technical English): short sentences, one idea per sentence, active voice, plain common words, and the same word for the same thing. Use these headings as guidance, not a fixed template: drop a section a small PR has nothing to say in, rather than filling it with filler.
+The reviewer can read the diff for the *what*. The description exists for the *why*.
 
-- **Summary**: what changed and why, in a few lines. Add the smallest visual that makes the point when it clarifies, next to the text it supports. Plain text is the safe default: a shallow file tree, a call or component tree, pseudocode, or a diff-style sketch. A fenced `mermaid` block (sequence diagram, flow) is also allowed when a picture beats text; GitHub and Azure DevOps both render it in PR descriptions, and if it does not render, replace it with a plain-text tree or diff. Show a whole code block only when most of it is new or the reader needs a copyable target shape. Skip visuals for dependency bumps and other changes that read fine as text.
+- **Lead with the why.** Every change gets its reason: the problem, the risk, the requirement. A bullet with only a what is incomplete.
+- **Bullets, not paragraphs.** One idea per bullet. Fragments are fine when they are clear: "Pin X to 2.1: 2.2 breaks Y" beats a full sentence.
+- **Clear over complete.** Cut preambles, hedges and restating the title. If a word adds nothing, drop it.
+- **ASD-STE100 (Simplified Technical English) as a guide:** active voice, plain common words, one word for one thing, no idioms.
+
+Use these headings as guidance, not a fixed template: drop a section a small PR has nothing to say in, rather than filling it with filler.
+
+- **Summary**: why the change is needed, then what changed, in a few bullets. Add the smallest visual that makes the point when it clarifies, next to the text it supports. Plain text is the safe default: a shallow file tree, a call or component tree, pseudocode, or a diff-style sketch. A fenced `mermaid` block (sequence diagram, flow) is also allowed when a picture beats text; GitHub and Azure DevOps both render it in PR descriptions, and if it does not render, replace it with a plain-text tree or diff. Show a whole code block only when most of it is new or the reader needs a copyable target shape. Skip visuals for dependency bumps and other changes that read fine as text.
 - **Notable decisions**: anything a reviewer might question (a temporary pin, a skipped option, a forced bump), with the reason.
 - **Evidence**: before and after. For a dependency bump, the resolved versions before and after. For a fix, the test that failed and now passes, in pseudocode. For a visual change, screenshots. Say plainly what you did not run (tests that need Docker, environments you cannot reach) and name failures that also occur on the untouched base branch. Never imply more was checked than was.
 - **Merge danger** (omit for trivial changes such as docs, or write "none"): the *door*, one-way or two-way, meaning whether it can be rolled back; and the *blast radius*, one word plus any ramifications, such as consumers that could break or services that must be redeployed together.
